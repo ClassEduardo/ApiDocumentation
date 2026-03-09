@@ -15,9 +15,9 @@ public class ProdutoController : ControllerBase
     [EndpointDescription("Recebe um route parameter Id que retorna um produto.")]
     [ProducesResponseType(StatusCodes.Status200OK, Description = "Produto é encontrado no banco")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Description = "Coleção filtrada não encontrou produto")]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized, Description = "Usuário não logado ou token expirado")]
-    [ProducesResponseType(StatusCodes.Status403Forbidden, Description = "Usuário logado sem permissão de criação.")]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Description = "Produto não encontrado")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized, Description = "Usuário não logado ou token expirado")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden, Description = "Usuário logado sem permissão de criação.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound, Description = "Produto não encontrado")]
     public IActionResult Get([Description("Identificador único do produto para busca")] Guid id)
     {
         return Ok("Produto: X");
@@ -28,11 +28,11 @@ public class ProdutoController : ControllerBase
     [EndpointDescription("Recebe um produto no body que será criado no banco.")]
     [ProducesResponseType(StatusCodes.Status201Created, Description = "Produto criado com sucesso.")]
     [ProducesResponseType(StatusCodes.Status202Accepted, Description = "Produto será criado futuramente no banco.")]
-    [ProducesResponseType(StatusCodes.Status400BadRequest, Description = "Falta de campo obrigatório.")]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized, Description = "Usuário não logado ou token expirado.")]
-    [ProducesResponseType(StatusCodes.Status403Forbidden, Description = "Usuário logado sem permissão de criação.")]
-    [ProducesResponseType(StatusCodes.Status409Conflict, Description = "Objeto já criado ou conflito de campo")]
-    [ProducesResponseType(StatusCodes.Status422UnprocessableEntity, Description = "Objeto não aprovado nas regras de negócio")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest, Description = "Falta de campo obrigatório.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized, Description = "Usuário não logado ou token expirado.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden, Description = "Usuário logado sem permissão de criação.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict, Description = "Objeto já criado ou conflito de campo")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status422UnprocessableEntity, Description = "Objeto não aprovado nas regras de negócio")]
     public IActionResult Create(
         [Description("Produto que será criado no banco.")]
         [FromBody] ProdutoDto produtoDto)
@@ -45,11 +45,11 @@ public class ProdutoController : ControllerBase
     [EndpointDescription("Recebe um route parameter Id e campos no body que serão utilizados para atualizar o produto no banco.")]
     [ProducesResponseType(StatusCodes.Status200OK, Description = "Produto atualizado com sucesso")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Description = "Atualização feita sem retornar body.")]
-    [ProducesResponseType(StatusCodes.Status400BadRequest, Description = "Payload inválido.")]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized, Description = "Usuário não logado ou token expirado.")]
-    [ProducesResponseType(StatusCodes.Status403Forbidden, Description = "Usuário logado sem permissão de update.")]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Description = "produto não encontrado para atualização.")]
-    [ProducesResponseType(StatusCodes.Status409Conflict, Description = "Conflito com ao tentar atualizar produto.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest, Description = "Payload inválido.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized, Description = "Usuário não logado ou token expirado.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden, Description = "Usuário logado sem permissão de update.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound, Description = "produto não encontrado para atualização.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status409Conflict, Description = "Conflito com ao tentar atualizar produto.")]
     public IActionResult Update(
         [Description("Identificador único do produto para atualização")] Guid id,
         [Description("Produto que será atualizado no banco.")]
@@ -64,9 +64,9 @@ public class ProdutoController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Description = "Objeto excluído e retorno de informação como true ou false")]
     [ProducesResponseType(StatusCodes.Status202Accepted, Description = "Exclusão aceita mas ocorre de forma assíncrona.")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Description = "Objeto excluído mas sem retornar informação")]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized, Description = "Usuário não logado ou token expirado.")]
-    [ProducesResponseType(StatusCodes.Status403Forbidden, Description = "Usuário logado sem permissão de exclusão.")]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Description = "Objeto não encontrado para exclusão")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized, Description = "Usuário não logado ou token expirado.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden, Description = "Usuário logado sem permissão de exclusão.")]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound, Description = "Objeto não encontrado para exclusão")]
     public IActionResult Delete([Description("Identificador único do produto para exclusão")] Guid id)
     {
         return Ok("produto X excluído");
