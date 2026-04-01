@@ -1,9 +1,8 @@
-using System;
 using System.Text.Json.Nodes;
 
 namespace ApiDocumentation.OpenApi;
 
-public static class ProblemDetailsExamples
+public static class SuccessResponseExamples
 {
     public static void ApplyToOperation(dynamic operation)
     {
@@ -11,11 +10,17 @@ public static class ProblemDetailsExamples
         {
             string key = response.Key;
 
-            if (key == "200" || key == "201" || key == "202" || key == "204")
+            if (key != "200" && key != "201" && key != "202" && key != "204")
                 continue;
 
             if (int.TryParse(key, out int statusCode))
             {
+                if (response.Value.Content.Count == 0)
+                {
+                    var contentObj = new Microsoft.OpenApi.Models.OpenApiMediaType();
+                    response.Value.Content.Add("application/json", contentObj);
+                }
+
                 foreach (var mediaType in response.Value.Content)
                 {
                     string mediaTypeKey = mediaType.Key;
@@ -32,17 +37,14 @@ public static class ProblemDetailsExamples
 
     private static string GetExampleForStatusCode(int statusCode)
     {
-        var title = ProblemDetailsMetadata.GetTitle(statusCode);
-        var typeUrl = ProblemDetailsMetadata.GetType(statusCode);
-        var detail = ProblemDetailsMetadata.GetDefaultDetail(statusCode);
-
+        var message = ApiResponseMetadata.GetDefaultMessage(statusCode);
+        
         return $$"""
         {
-          "type": "{{typeUrl}}",
-          "title": "{{title}}",
-          "status": {{statusCode}},
-          "detail": "{{detail}}",
-          "instance": "/api/produto"
+          "success": true,
+          "message": "{{message}}",
+          "statusCode": {{statusCode}},
+          "data": "Objeto ou payload retornado pelo Controller (ex: ProdutoDto)"
         }
         """;
     }

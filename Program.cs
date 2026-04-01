@@ -7,11 +7,15 @@ builder.Services.AddOpenApi(options =>
     options.AddOperationTransformer((operation, context, cancellationToken) =>
     {
         ApiDocumentation.OpenApi.ProblemDetailsExamples.ApplyToOperation(operation);
+        ApiDocumentation.OpenApi.SuccessResponseExamples.ApplyToOperation(operation);
         return System.Threading.Tasks.Task.CompletedTask;
     });
 });
 builder.Services.AddProblemDetails();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiDocumentation.Middleware.SuccessResponseFilter>();
+});
 
 var app = builder.Build();
 
